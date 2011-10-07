@@ -1,0 +1,41 @@
+<?xml version="1.0" standalone="no"?>
+
+<graph>
+
+<description>
+http://http://www.bcgsc.ca/platform/bioinfo/software/abyss
+</description>
+
+<copyright>
+Copyright: Copyright 2011 Genome Sciences Centre
+</copyright>
+
+<changelog>
+</changelog>
+
+<edge from="base">
+  <to>abyss-common</to>
+</edge>
+<order head="base">
+  <tail>abyss-common</tail>
+</order>
+
+<edge from="envmodules-common">
+  <to>abyss-modules-common</to>
+</edge>
+<order head="envmodules-common">
+  <tail>abyss-modules-common</tail>
+</order>
+
+<order head="abyss-common">
+  <tail>abyss-modules-common</tail>
+</order>
+
+<edge>form="boost-common">
+  <to>abyss-install</to>
+</edge>
+
+<order head="boost-common">
+  <tail>abyss-install</tail>
+</order>
+</graph>
