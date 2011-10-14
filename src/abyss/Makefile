@@ -102,7 +102,7 @@ build:
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
           cd $(SOURCE); \
-          ./configure CC=mpicc CXX=mpicxx -enable-mpi=$${MPI_HOME} --prefix=$(ROOT)/$(PKGROOT) --with-boost=/opt/boost/include; \
+          ./configure CC=mpicc CXX=mpicxx -enable-mpi=$${MPI_HOME} --prefix=$(ROOT)/$(PKGROOT) --with-boost=/opt/boost/include CPPFLAGS=-wr279,68; \
           make; \
 	)
 
