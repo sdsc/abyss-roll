@@ -31,11 +31,4 @@ Copyright: Copyright 2011 Genome Sciences Centre
   <tail>abyss-modules-common</tail>
 </order>
 
-<edge>form="boost-common">
-  <to>abyss-install</to>
-</edge>
-
-<order head="boost-common">
-  <tail>abyss-install</tail>
-</order>
 </graph>
