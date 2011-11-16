@@ -98,18 +98,29 @@ MPISETUP = \
 
 build:
 	tar zxvf $(SOURCE).tar.gz
+        tar zvxf boost-1.47.0.tar.gz
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
-          cd $(SOURCE); \
+          cd boost-1.47.0; \
+          ./bootstrap.sh --prefix=$(REDHAT.ROOT)/src/build-boost; \
+          ./b2; \
+	  mkdir -p $(REDHAT.)/src/build-boost/lib; \
+	  mkdir -p $(REDHAT.ROOT)/src/build-boost/include; \
+          cp -r boost $(REDHAT.ROOT)/src/build-boost/include; \
+          cp -r stage/lib/* $(REDHAT.ROOT)/src/build-boost/lib; \
+          cd ../$(SOURCE); \
           ./configure CC=mpicc CXX=mpicxx -enable-mpi=$${MPI_HOME} --prefix=$(ROOT)/$(PKGROOT) --with-boost=/opt/boost/include CPPFLAGS=-wr279,68; \
-          make; \
+          make \
 	)
 
 install::
 	( \
            cd $(SOURCE); \
-           make install \
+           make install; \
+           cd $(REDHAT.ROOT)/src/build-boost; \
+           cp -r boost $(ROOT)/$(PKGROOT)/include; \
+           cp -r stage/lib/* $(ROOT)/$(PKGROOT)/lib; \
         )
         
 

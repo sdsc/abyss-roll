@@ -4,10 +4,12 @@
 
 <description>
 http://http://www.bcgsc.ca/platform/bioinfo/software/abyss
+http://www.boost.org
 </description>
 
 <copyright>
 Copyright: Copyright 201.3.0 Genome Sciences Centre
+Copyright Rene Rivera 2004-2005
 </copyright>
 
 <changelog>
