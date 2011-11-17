@@ -68,7 +68,6 @@ PKGROOT = /opt/abyss
 SOURCE = abyss-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 
-BOOST_SOURCE=boost-1.47.0
 
 -include $(ROCKSROOT)/etc/Rules.mk
 
@@ -100,36 +99,21 @@ MPISETUP = \
 
 build:
 	tar zxvf $(SOURCE).tar.gz
-	tar zvxf $(BOOST_SOURCE).tar.gz
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
-          TOOLSET=mingw; \
-          if test $(ROLLCOMPILER) = "intel";  then \
-             TOOLSET=intel-linux; \
-          elif test $(ROLLCOMPILER) = "pgi";  then \
-             TOOLSET=pgi; \
-          fi; \
-          cd $(BOOST_SOURCE); \
-          ./bootstrap.sh --prefix=$(REDHAT.ROOT)/src/build-boost --with-toolset=$$TOOLSET; \
-          ./b2; \
-	  mkdir -p $(REDHAT.ROOT)/src/build-boost/lib; \
-	  mkdir -p $(REDHAT.ROOT)/src/build-boost/include; \
-          cp -r boost $(REDHAT.ROOT)/src/build-boost/include; \
-          cp -r stage/lib/* $(REDHAT.ROOT)/src/build-boost/lib; \
-          cd ../$(SOURCE); \
-          export LD_LIBRARY_PATH=$(REDHAT.ROOT)/src/build-boost/lib:$$LD_LIBRARY_PATH; \
-          ./configure CC=mpicc CXX=mpicxx -enable-mpi=$${MPI_HOME} --prefix=$(ROOT)/$(PKGROOT) --with-boost=$(REDHAT.ROOT)/src/build-boost/include CPPFLAGS=-wr279,68; \
+          cd $(SOURCE); \
+          wget http://downloads.sourceforge.net/project/boost/boost/1.47.0/boost_1_47_0.tar.bz2; \
+          tar jxf boost_1_47_0.tar.bz2; \
+          ln -s boost_1_47_0/boost boost; \
+          ./configure CC=mpicc CXX=mpicxx -enable-mpi=$${MPI_HOME} --prefix=$(ROOT)/$(PKGROOT) CPPFLAGS=-wr279,68; \
           make \
 	)
 
 install::
 	( \
            cd $(SOURCE); \
-           make install; \
-           cd $(REDHAT.ROOT)/src/build-boost; \
-           cp -r boost $(ROOT)/$(PKGROOT)/include; \
-           cp -r stage/lib/* $(ROOT)/$(PKGROOT)/lib; \
+           make install \
         )
         
 
