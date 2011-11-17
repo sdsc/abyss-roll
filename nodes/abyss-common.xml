@@ -15,7 +15,7 @@ Copyright Rene Rivera 2004-2005
 <changelog>
 </changelog>
 
-<package>abyss_ROLLMPI_ROLLNETWORK</package>
+<package>abyss_mvapich2_ib</package>
 
 <post>
 

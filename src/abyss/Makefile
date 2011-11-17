@@ -74,6 +74,13 @@ else
   MPI = $(ROLLMPI)_$(ROLLNETWORK)
 endif
 
+ROLLCOMPILER=gnu
+COMPILERSETUP = \
+  if test -e /etc/profile.d/modules.sh; then \
+    . /etc/profile.d/modules.sh; \
+    module load $(ROLLCOMPILER); \
+  fi
+
 MPISETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
@@ -90,6 +97,7 @@ MPISETUP = \
 build:
 	tar zxvf $(SOURCE).tar.gz
 	( \
+	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
           cd $(SOURCE); \
           wget http://downloads.sourceforge.net/project/boost/boost/1.47.0/boost_1_47_0.tar.bz2; \
