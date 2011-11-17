@@ -54,9 +54,6 @@
 #
 # @Copyright@
 
-ifndef ROLLCOMPILER
-  ROLLCOMPILER = gnu
-endif
 ifndef ROLLNETWORK
   ROLLNETWORK = eth
 endif
@@ -70,13 +67,6 @@ REDHAT.ROOT = $(PWD)/../../
 
 
 -include $(ROCKSROOT)/etc/Rules.mk
-
-COMPILERSETUP = \
-  if test -e /etc/profile.d/modules.sh; then \
-    . /etc/profile.d/modules.sh; \
-    module load $(ROLLCOMPILER); \
-  fi
-
 
 ifeq ("$(ROLLNETWORK)", "eth")
   MPI = $(ROLLMPI)
@@ -100,7 +90,6 @@ MPISETUP = \
 build:
 	tar zxvf $(SOURCE).tar.gz
 	( \
-	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
           cd $(SOURCE); \
           wget http://downloads.sourceforge.net/project/boost/boost/1.47.0/boost_1_47_0.tar.bz2; \

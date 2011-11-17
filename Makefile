@@ -55,9 +55,6 @@
 # @Copyright@
 #
 
-ifndef ROLLCOMPILER
-  ROLLCOMPILER = gnu
-endif
 ifndef ROLLMPI
   ROLLMPI = openmpi
 endif
@@ -66,20 +63,17 @@ ifndef ROLLNETWORK
 endif
 empty:=
 space:=$(empty) $(empty)
-ROLLSUFFIX = _$(subst $(space),+,$(ROLLCOMPILER))_$(subst $(space),+,$(ROLLNETWORK))_$(subst $(space),+,$(ROLLMPI))
+ROLLSUFFIX = _$(subst $(space),+,$(ROLLNETWORK))_$(subst $(space),+,$(ROLLMPI))
 
 -include $(ROLLSROOT)/etc/Rolls.mk
 
 default:
-# Copy and substitute lines of nodes/*.in that reference ROLLCOMPILER,
+# Copy and substitute lines of nodes/*.in that reference
 # ROLLNETWORK, and/or ROLLMPI, making one copy for each
-# ROLLCOMPILER/ROLLNETWORK/ROLLMPI value
+# ROLLNETWORK/ROLLMPI value
 	for i in `ls nodes/*.in`; do \
 	  export o=`echo $$i | sed 's/\.in//'`; \
 	  cp $$i $$o; \
-	  for c in $(ROLLCOMPILER); do \
-	    perl -pi -e 'print and s/ROLLCOMPILER/'$${c}'/g if m/ROLLCOMPILER/' $$o; \
-	  done; \
 	  for n in $(ROLLNETWORK); do \
 	    perl -pi -e 'print and s/ROLLNETWORK/'$${n}'/g if m/ROLLNETWORK/' $$o; \
 	  done; \
@@ -88,7 +82,7 @@ default:
 	  done; \
 	  perl -pi -e '$$_ = "" if m/ROLL(COMPILER|NETWORK|MPI)/' $$o; \
 	done
-	$(MAKE) ROLLCOMPILER="$(ROLLCOMPILER)" ROLLNETWORK="$(ROLLNETWORK)" ROLLMPI="$(ROLLMPI)" roll
+	$(MAKE) ROLLNETWORK="$(ROLLNETWORK)" ROLLMPI="$(ROLLMPI)" roll
 
 clean::
 	rm -f _arch bootstrap.py
