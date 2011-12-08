@@ -54,6 +54,7 @@
 #
 # @Copyright@
 
+ROLLCOMPILER = gnu
 ifndef ROLLNETWORK
   ROLLNETWORK = eth
 endif
@@ -65,26 +66,24 @@ PKGROOT = /opt/abyss
 SOURCE = abyss-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 
-
 -include $(ROCKSROOT)/etc/Rules.mk
 
-ifeq ("$(ROLLNETWORK)", "eth")
-  MPI = $(ROLLMPI)
-else
-  MPI = $(ROLLMPI)_$(ROLLNETWORK)
-endif
-
-ROLLCOMPILER=gnu
 COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
     module load $(ROLLCOMPILER); \
   fi
 
+ifeq ("$(ROLLNETWORK)", "eth")
+  MPIMODULE = $(ROLLMPI)
+else
+  MPIMODULE = $(ROLLMPI)_$(ROLLNETWORK)
+endif
+
 MPISETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    module load $(MPI); \
+    module load $(MPIMODULE); \
   fi; \
   export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
   if test -z "$${MPI_HOME}"; then \
@@ -94,25 +93,28 @@ MPISETUP = \
   export PATH=$${PATH}:$${MPI_HOME}/bin; \
   export LD_LIBRARY_PATH=$${LD_LIBRARY_PATH}:$${MPI_HOME}/lib
 
+CC = mpicc
+CXX = mpicxx
+
 build:
 	tar zxvf $(SOURCE).tar.gz
+	wget http://downloads.sourceforge.net/project/boost/boost/1.47.0/boost_1_47_0.tar.bz2
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
-          cd $(SOURCE); \
-          wget http://downloads.sourceforge.net/project/boost/boost/1.47.0/boost_1_47_0.tar.bz2; \
-          tar jxf boost_1_47_0.tar.bz2; \
-          ln -s boost_1_47_0/boost boost; \
-          ./configure CC=mpicc CXX=mpicxx -enable-mpi=$${MPI_HOME} --prefix=$(ROOT)/$(PKGROOT) CPPFLAGS=-wr279,68; \
-          make \
+	  cd $(SOURCE); \
+	  tar jxf ../boost*; \
+	  ln -s boost*/boost boost; \
+	  ./configure CC=$(CC) CXX=$(CXX) --prefix=$(ROOT)/$(PKGROOT) \
+	              --with-mpi=$${MPI_HOME} \
+	  make \
 	)
 
 install::
 	( \
-           cd $(SOURCE); \
-           make install \
+	  cd $(SOURCE); \
+	  make install \
         )
         
-
 clean::
-	rm -rf $(SOURCE) $(BOOST_SOURCE)
+	rm -rf $(SOURCE) boost*
