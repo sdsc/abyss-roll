@@ -64,13 +64,14 @@ default:
 
 copyright rpm pkg clean::
 	for i in $(SRCDIRS) ; do \
+	  grep -q ROLLMPI $$i/version.mk; \
 	  if test $$? -eq 0; then \
-	      for m in $(ROLLMPI); do \
-	         for n in $(ROLLNETWORK); do \
-	           echo make $@ in $$i with ROLLMPI=$$m ROLLNETWORK=$$n; \
-	           (cd $$i; $(MAKE) ROLLMPI=$$m ROLLNETWORK=$$n $@); \
-	         done; \
-              done; \
+	    for m in $(ROLLMPI); do \
+	      for n in $(ROLLNETWORK); do \
+	        echo make $@ in $$i with ROLLMPI=$$m ROLLNETWORK=$$n; \
+	        (cd $$i; $(MAKE) ROLLMPI=$$m ROLLNETWORK=$$n $@); \
+	      done; \
+	    done; \
 	  else \
 	    (cd $$i; $(MAKE) $@) ; \
 	  fi; \
