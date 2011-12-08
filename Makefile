@@ -55,6 +55,8 @@
 # @Copyright@
 #
 
+# NOTE: although the package Makefile supports a ROLLCOMPILER variable, we've
+# only been able to build successfully using the gnu compilers.
 ifndef ROLLMPI
   ROLLMPI = openmpi
 endif
@@ -82,7 +84,7 @@ default:
 	  done; \
 	  perl -pi -e '$$_ = "" if m/ROLL(COMPILER|NETWORK|MPI)/' $$o; \
 	done
-	$(MAKE) ROLLNETWORK="$(ROLLNETWORK)" ROLLMPI="$(ROLLMPI)" roll
+	$(MAKE) ROLLCOMPILER=gnu ROLLNETWORK="$(ROLLNETWORK)" ROLLMPI="$(ROLLMPI)" roll
 
 clean::
 	rm -f _arch bootstrap.py
