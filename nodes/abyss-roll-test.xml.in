@@ -1,0 +1,97 @@
+<?xml version="1.0" standalone="no"?>
+
+<kickstart>
+
+<description>
+The abyss roll installation test.
+</description>
+
+<copyright>
+Copyright (c) 2000 - 2011 The Regents of the University of California.
+All rights reserved. Rocks(r) v5.1 www.rocksclusters.org
+</copyright>
+
+<changelog>
+</changelog>
+
+<post>
+
+/bin/mkdir -m 0755 /root/rolltests
+
+<file name="/root/rolltests/abyss.t" perms="0755">
+<![CDATA[#!/usr/bin/perl -w
+# abyss roll installation test.  Usage:
+# abyss.t [nodetype]
+#   where nodetype is one of "Compute", "Dbnode", "Frontend" or "Login"
+#   if not specified, the test assumes either Compute or Frontend
+
+use Test::More qw(no_plan);
+
+my $appliance = $#ARGV >= 0 ? $ARGV[0] :
+                -d '/export/rocks/install' ? 'Frontend' : 'Compute';
+my $installedOnAppliancesPattern = '.';
+my $isInstalled = -d '/opt/abyss';
+my $output;
+
+my $TESTFILE = 'tmpabyss';
+
+open(OUT, ">$TESTFILE.sh");
+print OUT <<END;
+#!/bin/bash
+if test -f /etc/profile.d/modules.sh; then
+  . /etc/profile.d/modules.sh
+  module load gnu ROLLMPI_ROLLNETWORK abyss
+fi
+mkdir $TESTFILE.dir
+cd $TESTFILE.dir
+wget https://raw.github.com/dzerbino/velvet/master/data/test_reads.fa
+abyss-pe k=25 name=test se=test_reads.fa
+abyss-fac test-se-contigs.fa
+END
+close(OUT);
+
+# abyss-common.xml
+if($appliance =~ /$installedOnAppliancesPattern/) {
+  ok($isInstalled, 'abyss installed');
+} else {
+  ok(! $isInstalled, 'abyss not installed');
+}
+SKIP: {
+
+  skip 'abyss not installed', 3 if ! $isInstalled;
+  $output = `/bin/bash $TESTFILE.sh 2>&1`;
+  like($output, qr/1\s+1\s+1\s+99889\s+99889\s+99889\s+99889\s+99889\s+99889/,
+       'abyss test run');
+
+}
+
+# abyss-modules-common
+SKIP: {
+
+  skip 'abyss not installed', 1 if ! $isInstalled;
+  my $modulesInstalled = -f '/etc/profile.d/modules.sh';
+  if($modulesInstalled) {
+    ok(! -f '/etc/profile.d/abyss.csh' &&
+       ! -f '/etc/profile.d/abyss.sh', 'abyss profile.d removed');
+    like($ENV{MODULEPATH}, qr#/opt/modulefiles/applications#,
+         'MODULEPATH set for applications');
+    `/bin/ls /opt/modulefiles/applications/abyss/[0-9]* 2>&1`;
+    ok($? == 0, 'abyss module installed');
+    `/bin/ls /opt/modulefiles/applications/abyss/.version.[0-9]* 2>&1`;
+    ok($? == 0, 'abyss version module installed');
+    ok(-l '/opt/modulefiles/applications/abyss/.version',
+       'abyss version module link created');
+  } else {
+    ok(-f '/etc/profile.d/abyss.csh' && -f '/etc/profile.d/abyss.sh',
+       'abyss profile.d installed');
+  }
+
+}
+
+`rm -fr $TESTFILE*`;
+]]>
+</file>
+
+</post>
+
+</kickstart> 
