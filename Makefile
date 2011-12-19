@@ -70,9 +70,8 @@ ROLLSUFFIX = _$(subst $(space),+,$(ROLLNETWORK))_$(subst $(space),+,$(ROLLMPI))
 -include $(ROLLSROOT)/etc/Rolls.mk
 
 default:
-# Copy and substitute lines of nodes/*.in that reference
-# ROLLNETWORK, and/or ROLLMPI, making one copy for each
-# ROLLNETWORK/ROLLMPI value
+# Copy and substitute lines of nodes/*.in that reference ROLLNETWORK and/or
+# ROLLMPI, making one copy for each ROLLNETWORK/ROLLMPI value
 	for i in `ls nodes/*.in`; do \
 	  export o=`echo $$i | sed 's/\.in//'`; \
 	  cp $$i $$o; \
