@@ -72,7 +72,11 @@ COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
     module load $(ROLLCOMPILER); \
+  fi; \
+  if test "$(ROLLCOMPILER)" = "intel"; then \
+    export CXXFLAGS=-std=c++0x; \
   fi
+  
 
 ifeq ("$(ROLLNETWORK)", "eth")
   MPIMODULE = $(ROLLMPI)
@@ -106,7 +110,7 @@ build:
 	  tar jxf ../boost*; \
 	  ln -s boost*/boost boost; \
 	  ./configure CC=$(CC) CXX=$(CXX) --prefix=$(ROOT)/$(PKGROOT) \
-	              --with-mpi=$${MPI_HOME} \
+	              --with-mpi=$${MPI_HOME}; \
 	  make \
 	)
 
