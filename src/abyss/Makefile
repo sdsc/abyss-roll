@@ -101,14 +101,14 @@ CC = mpicc
 CXX = mpicxx
 
 build:
-	tar zxvf $(SOURCE).tar.gz
+	tar xvzf abyss-1.3.0.tar.gz
 	wget http://downloads.sourceforge.net/project/boost/boost/1.47.0/boost_1_47_0.tar.bz2
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
 	  cd $(SOURCE); \
-	  tar jxf ../boost*; \
-	  ln -s boost*/boost boost; \
+          tar jxf ../boost_1_47_0.tar.bz2; \
+          ln -s boost_1_47_0/boost boost; \
 	  ./configure CC=$(CC) CXX=$(CXX) --prefix=$(ROOT)/$(PKGROOT) \
 	              --with-mpi=$${MPI_HOME}; \
 	  make \
