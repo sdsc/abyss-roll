@@ -58,33 +58,18 @@ if($appliance =~ /$installedOnAppliancesPattern/) {
 }
 SKIP: {
 
-  skip 'abyss not installed', 3 if ! $isInstalled;
+  skip 'abyss not installed', 4 if ! $isInstalled;
   $output = `/bin/bash $TESTFILE.sh 2>&1`;
   like($output, qr/1\s+1\s+1\s+99889\s+99889\s+99889\s+99889\s+99889\s+99889/,
        'abyss test run');
 
-}
-
-# abyss-modules-common
-SKIP: {
-
-  skip 'abyss not installed', 1 if ! $isInstalled;
-  my $modulesInstalled = -f '/etc/profile.d/modules.sh';
-  if($modulesInstalled) {
-    ok(! -f '/etc/profile.d/abyss.csh' &&
-       ! -f '/etc/profile.d/abyss.sh', 'abyss profile.d removed');
-    like($ENV{MODULEPATH}, qr#/opt/modulefiles/applications#,
-         'MODULEPATH set for applications');
-    `/bin/ls /opt/modulefiles/applications/abyss/[0-9]* 2>&1`;
-    ok($? == 0, 'abyss module installed');
-    `/bin/ls /opt/modulefiles/applications/abyss/.version.[0-9]* 2>&1`;
-    ok($? == 0, 'abyss version module installed');
-    ok(-l '/opt/modulefiles/applications/abyss/.version',
-       'abyss version module link created');
-  } else {
-    ok(-f '/etc/profile.d/abyss.csh' && -f '/etc/profile.d/abyss.sh',
-       'abyss profile.d installed');
-  }
+  skip 'modules not installed', 3 if ! -f '/etc/profile.d/modules.sh';
+  `/bin/ls /opt/modulefiles/applications/abyss/[0-9]* 2>&1`;
+  ok($? == 0, 'abyss module installed');
+  `/bin/ls /opt/modulefiles/applications/abyss/.version.[0-9]* 2>&1`;
+  ok($? == 0, 'abyss version module installed');
+  ok(-l '/opt/modulefiles/applications/abyss/.version',
+     'abyss version module link created');
 
 }
 

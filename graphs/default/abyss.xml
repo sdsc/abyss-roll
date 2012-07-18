@@ -22,22 +22,11 @@ Copyright Rene Rivera 2004-2005
   <tail>abyss-common</tail>
 </order>
 
-<edge from="envmodules-common">
-  <to>abyss-modules-common</to>
-</edge>
-<order head="envmodules-common">
-  <tail>abyss-modules-common</tail>
-</order>
-
 <edge from="base">
   <to>abyss-roll-test</to>
 </edge>
 <order head="base">
   <tail>abyss-roll-test</tail>
-</order>
-
-<order head="abyss-common">
-  <tail>abyss-modules-common</tail>
 </order>
 
 </graph>

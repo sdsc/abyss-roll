@@ -15,22 +15,7 @@ Copyright Rene Rivera 2004-2005
 <changelog>
 </changelog>
 
-<package>abyss_ROLLNETWORK_ROLLMPI</package>
-
-<post>
-
-
-<file name="/etc/profile.d/abyss.csh" perms="0644">
-setenv ABYSSHOME /opt/abyss
-set path = ( /opt/abyss/bin $path )
-setenv LD_LIBRARY_PATH  /opt/abyss/lib:$LD_LIBRARY_PATH
-</file>
-<file name="/etc/profile.d/abyss.sh" perms="0644">
-export ABYSSHOME=/opt/abyss
-export PATH=/opt/abyss/bin:$PATH
-export LD_LIBRARY_PATH=/opt/abyss/lib:$LD_LIBRARY_PATH
-</file>
-
-</post>
+<package>abyss_ROLLMPI_ROLLNETWORK</package>
+<package>abyss-modules</package>
 
 </kickstart>

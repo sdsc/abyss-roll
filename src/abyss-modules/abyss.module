@@ -1,0 +1,4 @@
+#%Module1.0
+setenv ABYSSHOME /opt/abyss
+prepend-path PATH /opt/abyss/bin
+prepend-path LD_LIBRARY_PATH /opt/abyss/lib
