@@ -1,4 +1,4 @@
-ROLLNAME = abyss$(ROLLSUFFIX)
+ROLLNAME = abyss
 RELEASE  = 0
 COLOR    = orange
 
