@@ -1,9 +1,16 @@
-This roll bundles the ABYSS sequence assembler.  To build, execute
+This roll bundles the ABYSS sequence assembler.  To install, execute these
+instructions on a Rocks development machine (e.g., a frontend), starting in
+this directory:
 
 % make
+% rocks add roll *.iso
+% rocks enable roll abyss
+% cd /export/rocks/install
+% rocks create distro
+% rocks run roll abyss | bash
 
-in this directory.  In addition to the software itself, the roll installs
-ABYSS environment module files in /opt/modulefiles/applications/abyss.
+In addition to the software itself, the roll installs ABYSS environment module
+files in /opt/modulefiles/applications/abyss.
 
 This roll source supports building for different network fabrics and mpi
 flavors.  By default, it builds using the gnu compilers for openmpi ethernet.
