@@ -23,7 +23,7 @@ if test -f /etc/profile.d/modules.sh; then
 fi
 mkdir $TESTFILE.dir
 cd $TESTFILE.dir
-wget https://raw.github.com/dzerbino/velvet/master/data/test_reads.fa
+wget --no-check-certificate https://raw.github.com/dzerbino/velvet/master/data/test_reads.fa
 abyss-pe k=25 name=test se=test_reads.fa
 abyss-fac test-se-contigs.fa
 END
