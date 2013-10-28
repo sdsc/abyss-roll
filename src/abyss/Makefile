@@ -63,7 +63,7 @@ ifndef ROLLMPI
 endif
 
 PKGROOT = /opt/abyss
-SOURCE = abyss-$(VERSION)
+SOURCE = $(ABYSS_NAME)-$(ABYSS_VERSION)
 REDHAT.ROOT = $(PWD)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
