@@ -67,6 +67,7 @@ SOURCE = abyss-$(VERSION)
 REDHAT.ROOT = $(PWD)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
+include pull.mk
 
 COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
@@ -100,7 +101,7 @@ MPISETUP = \
 CC = mpicc
 CXX = mpicxx
 
-build:
+build: $(SRC_DIRS)
 	tar xvzf $(SOURCE).tar.gz
 	( \
 	  $(COMPILERSETUP); \
