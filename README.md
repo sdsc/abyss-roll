@@ -36,7 +36,7 @@ To build for a different configuration, use the ROLLMPI and ROLLNETWORK make
 variables, e.g.:
 
 ```shell
-% make ROLLMPI=mpich2 ROLLNETWORK=mx 
+% make ROLLMPI=mvapich2 ROLLNETWORK=ib 
 ```
 
 The build process currently supports ROLLMPI values "openmpi", "mpich2", and
