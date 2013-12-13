@@ -19,6 +19,7 @@ If your Rocks development machine does *not* have Internet access you must downl
 
 Unknown at this time.
 
+
 ## Building
 
 To build the abyss-roll, execute these instructions on a Rocks development machine (e.g., a frontend or development appliance):
@@ -32,17 +33,16 @@ If nothing is returned from the grep command then the roll should have been crea
 
 This roll source supports building for different network fabrics and mpi
 flavors.  By default, it builds using the gnu compilers for openmpi ethernet.
-To build for a different configuration, use the ROLLMPI and ROLLNETWORK make
+To build for a different configuration, use the `ROLLMPI` and `ROLLNETWORK` make
 variables, e.g.:
 
 ```shell
 % make ROLLMPI=mvapich2 ROLLNETWORK=ib 
 ```
 
-The build process currently supports ROLLMPI values "openmpi", "mpich2", and
-"mvapich2", defaulting to "openmpi".  It uses any ROLLNETWORK variable value(s)
-to load appropriate mpi modules, assuming that there are modules named
-$(ROLLMPI)_$(ROLLNETWORK) available (e.g., openmpi_ib, mpich2_mx, etc.).
+The build process currently supports `ROLLMPI` values "openmpi", "mpich2", and
+"mvapich2", defaulting to "openmpi".  It uses any `ROLLNETWORK` variable value(s) to load appropriate mpi modules, assuming that there are modules named
+`$(ROLLMPI)_$(ROLLNETWORK)` available (e.g., `openmpi_ib`, `mpich2_mx`, etc.).
 
 
 ## Installation
