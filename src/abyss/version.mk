@@ -1,5 +1,5 @@
 NAME	= abyss_$(ROLLMPI)_$(ROLLNETWORK)
-RELEASE	= 1
+RELEASE	= 0
 
 SRC_SUBDIR	= abyss
 
