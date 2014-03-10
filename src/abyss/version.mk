@@ -1,5 +1,6 @@
 NAME	= abyss_$(ROLLMPI)_$(ROLLNETWORK)
 RELEASE	= 0
+RPM.EXTRAS         = AutoReq:No
 
 SRC_SUBDIR	= abyss
 
