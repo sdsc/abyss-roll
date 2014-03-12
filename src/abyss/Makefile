@@ -73,6 +73,7 @@ COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
     module load $(ROLLCOMPILER); \
+    module load boost; \
   fi; \
   if test "$(ROLLCOMPILER)" = "intel"; then \
     export CXXFLAGS=-std=c++0x; \
@@ -102,15 +103,14 @@ CC = mpicc
 CXX = mpicxx
 
 build: $(SRC_DIRS)
-	tar xvzf $(SOURCE).tar.gz
+	cp patch-files/configure $(SOURCE)/
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
 	  cd $(SOURCE); \
-	  tar zxf ../boost_$(BOOST_VERSION).tar.gz; \
-	  ln -s boost_$(BOOST_VERSION)/boost boost; \
-	  ./configure CC=$(CC) CXX=$(CXX) --prefix=$(ROOT)/$(PKGROOT) \
-	              --with-mpi=$${MPI_HOME}; \
+	  ./configure CC=$(CC) CXX=$(CXX) \
+	    --prefix=$(ROOT)/$(PKGROOT) \
+	    --with-boost=$${BOOSTHOME}/include --with-mpi=$${MPI_HOME}; \
 	  make \
 	)
 
