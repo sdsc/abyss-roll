@@ -1,0 +1,2 @@
+configure
+  Suppress -Werror compiler switch, which causes build to fail
