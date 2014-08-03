@@ -24,7 +24,7 @@ development machine.
 
 ## Dependencies
 
-Unknown at this time.
+boost
 
 
 ## Building
@@ -86,11 +86,5 @@ the test scripts execute the following command(s):
 
 ```shell
 % /root/rolltests/abyss.t 
-ok 1 - abyss is installed
-ok 2 - abyss test run
-ok 3 - abyss module installed
-ok 4 - abyss version module installed
-ok 5 - abyss version module link created
-1..5
 ```
 
