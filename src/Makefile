@@ -69,11 +69,11 @@ copyright rpm pkg clean::
 	    for m in $(ROLLMPI); do \
 	      for n in $(ROLLNETWORK); do \
 	        echo make $@ in $$i with ROLLMPI=$$m ROLLNETWORK=$$n; \
-	        (cd $$i; $(MAKE) ROLLMPI=$$m ROLLNETWORK=$$n $@); \
+	        (cd $$i && $(MAKE) ROLLMPI=$$m ROLLNETWORK=$$n $@) || exit 2; \
 	      done; \
 	    done; \
 	  else \
 	    echo make $@ in $$i with ROLLMPI=$(ROLLMPI) ROLLNETWORK=$(ROLLNETWORK); \
-	    (cd $$i; $(MAKE) ROLLMPI="$(ROLLMPI)" ROLLNETWORK="$(ROLLNETWORK)" $@); \
+	    (cd $$i && $(MAKE) ROLLMPI="$(ROLLMPI)" ROLLNETWORK="$(ROLLNETWORK)" $@) || exit 2; \
 	  fi; \
 	done
