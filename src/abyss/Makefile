@@ -55,12 +55,6 @@
 # @Copyright@
 
 ROLLCOMPILER = gnu
-ifndef ROLLNETWORK
-  ROLLNETWORK = eth
-endif
-ifndef ROLLMPI
-  ROLLMPI = openmpi
-endif
 
 PKGROOT = /opt/abyss
 SOURCE = $(ABYSS_NAME)-$(ABYSS_VERSION)
@@ -72,13 +66,19 @@ include pull.mk
 COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
+    module=`module avail 2>&1 | grep -o -m1 "\<$(ROLLCOMPILER)\>"`; \
+    if test "$${module}" != "$(ROLLCOMPILER)"; then \
+      echo *** ERROR: Compiler module $(ROLLCOMPILER) not found; \
+      exit 2; \
+    fi; \
     module load $(ROLLCOMPILER); \
+    module=`module avail 2>&1 | grep -o -m1 "\<boost\>"`; \
+    if test "$${module}" != "boost"; then \
+      echo *** ERROR: boost module not found; \
+      exit 2; \
+    fi; \
     module load boost; \
-  fi; \
-  if test "$(ROLLCOMPILER)" = "intel"; then \
-    export CXXFLAGS=-std=c++0x; \
-  fi
-  
+  fi \
 
 ifeq ("$(ROLLNETWORK)", "eth")
   MPIMODULE = $(ROLLMPI)
@@ -89,6 +89,11 @@ endif
 MPISETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
+    module=`module avail 2>&1 | grep -o -m1 "\<$(MPIMODULE)\>"`; \
+    if test "$${module}" != "$(MPIMODULE)"; then \
+      echo *** ERROR: MPI module $(MPIMODULE) not found; \
+      exit 2; \
+    fi; \
     module load $(MPIMODULE); \
   fi; \
   export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
@@ -118,7 +123,7 @@ install::
 	( \
 	  cd $(SOURCE); \
 	  make install \
-        )
+	)
         
 clean::
 	rm -rf $(SOURCE)

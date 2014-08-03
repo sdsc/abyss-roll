@@ -1,5 +1,13 @@
+ifndef ROLLNETWORK
+  ROLLNETWORK = eth
+endif
+
+ifndef ROLLMPI
+  ROLLMPI = openmpi
+endif
+
 NAME	= abyss_$(ROLLMPI)_$(ROLLNETWORK)
-RELEASE	= 0
+RELEASE	= 1
 RPM.EXTRAS         = AutoReq:No
 
 SRC_SUBDIR	= abyss
