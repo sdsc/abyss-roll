@@ -44,7 +44,7 @@ appliance you need to copy the roll to your Rocks frontend before continuing
 with installation.
 
 This roll source supports building for different network fabrics and mpi
-flavors.  By default, it builds using the gnu compilers for openmpi ethernet. To
+flavors.  By default, it builds for openmpi ethernet. To
 build for a different configuration, use the `ROLLMPI` and `ROLLNETWORK` make
 variables, e.g.:
 
