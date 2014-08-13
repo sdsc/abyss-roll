@@ -63,22 +63,23 @@ REDHAT.ROOT = $(PWD)/../../
 -include $(ROCKSROOT)/etc/Rules.mk
 include pull.mk
 
+CC = gcc
+ifeq ("$(COMPILERNAME)", "intel")
+  CC = icc
+else ifeq ("$(COMPILERNAME)", "pgi")
+  CC = pgcc
+endif
+
 COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    module=`module avail 2>&1 | grep -o -m1 "\<$(ROLLCOMPILER)\>"`; \
-    if test "$${module}" != "$(ROLLCOMPILER)"; then \
-      echo *** ERROR: Compiler module $(ROLLCOMPILER) not found; \
-      exit 2; \
-    fi; \
     module load $(ROLLCOMPILER); \
-    module=`module avail 2>&1 | grep -o -m1 "\<boost\>"`; \
-    if test "$${module}" != "boost"; then \
-      echo *** ERROR: boost module not found; \
-      exit 2; \
-    fi; \
     module load boost; \
-  fi \
+  fi; \
+  echo === Compiler and version ===; \
+  $(CC) --version; \
+  echo === BOOSTHOME ===; \
+  echo $${BOOSTHOME}
 
 ifeq ("$(ROLLNETWORK)", "eth")
   MPIMODULE = $(ROLLMPI)
@@ -89,23 +90,19 @@ endif
 MPISETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    module=`module avail 2>&1 | grep -o -m1 "\<$(MPIMODULE)\>"`; \
-    if test "$${module}" != "$(MPIMODULE)"; then \
-      echo *** ERROR: MPI module $(MPIMODULE) not found; \
-      exit 2; \
-    fi; \
     module load $(MPIMODULE); \
   fi; \
   export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
   if test -z "$${MPI_HOME}"; then \
     export MPI_HOME=/opt/$(ROLLMPI); \
   fi; \
-  echo Using MPI from $${MPI_HOME}; \
+  echo === MPIHOME ===; \
+  echo $${MPI_HOME}; \
   export PATH=$${PATH}:$${MPI_HOME}/bin; \
   export LD_LIBRARY_PATH=$${LD_LIBRARY_PATH}:$${MPI_HOME}/lib
 
-CC = mpicc
-CXX = mpicxx
+MPICC = mpicc
+MPICXX = mpicxx
 
 build: $(SRC_DIRS)
 	cp patch-files/configure $(SOURCE)/
@@ -113,7 +110,7 @@ build: $(SRC_DIRS)
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
 	  cd $(SOURCE); \
-	  ./configure CC=$(CC) CXX=$(CXX) \
+	  ./configure CC=$(MPICC) CXX=$(MPICXX) \
 	    --prefix=$(ROOT)/$(PKGROOT) \
 	    --with-boost=$${BOOSTHOME}/include --with-mpi=$${MPI_HOME}; \
 	  make \
