@@ -73,8 +73,8 @@ endif
 COMPILERSETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    module load $(ROLLCOMPILER); \
-    module load boost; \
+    module load $(ROLLCOMPILER) || true; \
+    module load boost || true; \
   fi; \
   echo === Compiler and version ===; \
   $(CC) --version; \
@@ -90,7 +90,7 @@ endif
 MPISETUP = \
   if test -e /etc/profile.d/modules.sh; then \
     . /etc/profile.d/modules.sh; \
-    module load $(MPIMODULE); \
+    module load $(MPIMODULE) || true; \
   fi; \
   export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
   if test -z "$${MPI_HOME}"; then \
