@@ -24,8 +24,9 @@ development machine.
 
 ## Dependencies
 
-boost
-
+The build process requies the boost libraries; specifically, it expects the
+BOOSTHOME environment variable to be set.  If possible, the build loads the
+"gnu" and "boost" environment modules to fullfill this requirement.
 
 ## Building
 
