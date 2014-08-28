@@ -1,4 +1,5 @@
-NAME	= abyss-roll-test
-VERSION	= 1
-RELEASE	= 0
-RPM.EXTRAS         = AutoReq:No
+NAME	   = abyss-roll-test
+VERSION	   = 1
+RELEASE	   = 1
+
+RPM.EXTRAS = AutoReq:No

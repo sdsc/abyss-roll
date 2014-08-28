@@ -19,7 +19,7 @@ print OUT <<END;
 #!/bin/bash
 if test -f /etc/profile.d/modules.sh; then
   . /etc/profile.d/modules.sh
-  module load gnu ROLLMPI_ROLLNETWORK abyss
+  module load abyss
 fi
 mkdir $TESTFILE.dir
 cd $TESTFILE.dir
