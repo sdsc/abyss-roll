@@ -1,19 +1,26 @@
-ifndef ROLLNETWORK
-  ROLLNETWORK = eth
-endif
+ROLLCOMPILER = gnu
 
 ifndef ROLLMPI
   ROLLMPI = openmpi
 endif
 
-NAME	= abyss_$(ROLLMPI)_$(ROLLNETWORK)
-RELEASE	= 1
-RPM.EXTRAS         = AutoReq:No
+ifndef ROLLNETWORK
+  ROLLNETWORK = eth
+endif
 
-SRC_SUBDIR	= abyss
+NAME           = abyss_$(ROLLMPI)_$(ROLLNETWORK)
+VERSION        = 1.3.7
+RELEASE        = 1
+PKGROOT        = /opt/abyss
 
-ABYSS_NAME	= abyss
-ABYSS_VERSION	= 1.3.7
-ABYSS_SOURCE	= $(ABYSS_NAME)-$(ABYSS_VERSION).tar.gz
+SRC_SUBDIR     = abyss
 
-TAR_GZ_PKGS	= $(ABYSS_SOURCE)
+SOURCE_NAME    = abyss
+SOURCE_SUFFIX  = tar.gz
+SOURCE_VERSION = $(VERSION)
+SOURCE_PKG     = $(SOURCE_NAME)-$(SOURCE_VERSION).$(SOURCE_SUFFIX)
+SOURCE_DIR     = $(SOURCE_PKG:%.$(SOURCE_SUFFIX)=%)
+
+TAR_GZ_PKGS    = $(SOURCE_PKG)
+
+RPM.EXTRAS     = AutoReq:No

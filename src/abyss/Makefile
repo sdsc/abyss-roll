@@ -54,10 +54,6 @@
 #
 # @Copyright@
 
-ROLLCOMPILER = gnu
-
-PKGROOT = /opt/abyss
-SOURCE = $(ABYSS_NAME)-$(ABYSS_VERSION)
 REDHAT.ROOT = $(PWD)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
@@ -92,35 +88,29 @@ MPISETUP = \
     . /etc/profile.d/modules.sh; \
     module load $(MPIMODULE) || true; \
   fi; \
-  export MPI_HOME=`which mpicxx | perl -pe 's!/bin/.*!!'`; \
-  if test -z "$${MPI_HOME}"; then \
-    export MPI_HOME=/opt/$(ROLLMPI); \
+  if test -z "$${MPIHOME}"; then \
+    export MPIHOME=/opt/$(ROLLMPI); \
   fi; \
   echo === MPIHOME ===; \
-  echo $${MPI_HOME}; \
-  export PATH=$${PATH}:$${MPI_HOME}/bin; \
-  export LD_LIBRARY_PATH=$${LD_LIBRARY_PATH}:$${MPI_HOME}/lib
-
-MPICC = mpicc
-MPICXX = mpicxx
+  echo $${MPIHOME}
 
 build: $(SRC_DIRS)
-	cp patch-files/configure $(SOURCE)/
+	cp patch-files/configure $(SOURCE_DIR)/
 	( \
 	  $(COMPILERSETUP); \
 	  $(MPISETUP); \
-	  cd $(SOURCE); \
-	  ./configure CC=$(MPICC) CXX=$(MPICXX) \
+	  cd $(SOURCE_DIR); \
+	  ./configure CC=mpicc CXX=mpicxx \
 	    --prefix=$(ROOT)/$(PKGROOT) \
-	    --with-boost=$${BOOSTHOME}/include --with-mpi=$${MPI_HOME}; \
+	    --with-boost=$${BOOSTHOME}/include --with-mpi=$${MPIHOME}; \
 	  make \
 	)
 
 install::
 	( \
-	  cd $(SOURCE); \
+	  cd $(SOURCE_DIR); \
 	  make install \
 	)
         
 clean::
-	rm -rf $(SOURCE)
+	rm -rf $(SOURCE_DIR)
