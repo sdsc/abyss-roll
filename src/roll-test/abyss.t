@@ -17,10 +17,7 @@ my $TESTFILE = 'tmpabyss';
 open(OUT, ">$TESTFILE.sh");
 print OUT <<END;
 #!/bin/bash
-if test -f /etc/profile.d/modules.sh; then
-  . /etc/profile.d/modules.sh
-  module load abyss
-fi
+module load abyss
 mkdir $TESTFILE.dir
 cd $TESTFILE.dir
 wget --no-check-certificate https://raw.github.com/dzerbino/velvet/master/data/test_reads.fa
@@ -42,7 +39,6 @@ SKIP: {
   like($output, qr/1\s+1\s+1\s+99889\s+99889\s+99889\s+99889\s+99889\s+99889/,
        'abyss test run');
 
-  skip 'modules not installed', 3 if ! -f '/etc/profile.d/modules.sh';
   `/bin/ls /opt/modulefiles/applications/abyss/[0-9]* 2>&1`;
   ok($? == 0, 'abyss module installed');
   `/bin/ls /opt/modulefiles/applications/abyss/.version.[0-9]* 2>&1`;
