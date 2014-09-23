@@ -1,5 +1,9 @@
-NAME       = abyss-modules
-VERSION    = 1.3.7
-RELEASE    = 0
+NAME        = abyss-modules
+RELEASE     = 1
+PKGROOT     = /opt/modulefiles/applications/abyss
+
+VERSION_SRC = $(REDHAT.ROOT)/src/abyss/version.mk
+VERSION_INC = version.inc
+include $(VERSION_INC)
 
 RPM.EXTRAS = AutoReq:No
