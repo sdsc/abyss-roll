@@ -12,7 +12,8 @@ install::
 	mkdir -p $(ROOT)/$(PKGROOT)
 	cp *.module $(ROOT)/$(PKGROOT)/$(VERSION)
 	cp *.version $(ROOT)/$(PKGROOT)/.version.$(VERSION)
-	perl -pi -e 's#ROLLCOMPILER#$(ROLLCOMPILER)#g;' \
+	perl -pi -e 's#COMPILERNAME#$(COMPILERNAME)#g;' \
+	         -e 's#ROLLCOMPILER#$(ROLLCOMPILER)#g;' \
 	         -e 's#ROLLMPI#$(ROLLMPI)#g;' \
 	         -e 's#ROLLNETWORK#$(ROLLNETWORK)#g;' \
 	         -e 's#VERSION#$(VERSION)#g;' \
