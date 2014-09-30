@@ -16,6 +16,7 @@ install::
 	         -e 's#ROLLCOMPILER#$(ROLLCOMPILER)#g;' \
 	         -e 's#ROLLMPI#$(ROLLMPI)#g;' \
 	         -e 's#ROLLNETWORK#$(ROLLNETWORK)#g;' \
+	         -e 's#ROLLPY#$(ROLLPY)#g;' \
 	         -e 's#VERSION#$(VERSION)#g;' \
 	  $(ROOT)/$(PKGROOT)/.version.$(VERSION) $(ROOT)/$(PKGROOT)/$(VERSION)
 	ln -s $(PKGROOT)/.version.$(VERSION) $(ROOT)/$(PKGROOT)/.version
