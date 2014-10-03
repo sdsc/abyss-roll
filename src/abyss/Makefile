@@ -87,6 +87,14 @@ MPISETUP = \
   echo === MPIHOME ===; \
   echo $${MPIHOME}
 
+LICENSE: $(SRC_DIRS)
+	grep -m1 '^License:' $(SOURCE_DIR)/COPYRIGHT | grep -qE 'GPL-(NC-)?3\+'; \
+	if test $$? -eq 0; then \
+	  echo GPLv3+ > $@; \
+	fi \
+
+$(NAME).spec: LICENSE
+
 build: $(SRC_DIRS)
 	patch $(SOURCE_DIR)/configure patch-files/configure.patch
 	( \
@@ -107,4 +115,4 @@ install::
 	)
         
 clean::
-	rm -rf $(SOURCE_DIR)
+	rm -rf $(SOURCE_DIR) LICENSE
