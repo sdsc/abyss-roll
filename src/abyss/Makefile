@@ -88,7 +88,7 @@ MPISETUP = \
   echo $${MPIHOME}
 
 build: $(SRC_DIRS)
-	cp patch-files/configure $(SOURCE_DIR)/
+	patch $(SOURCE_DIR)/configure patch-files/configure.patch
 	( \
 	  $(COMPILERSETUP); \
 	  $(BOOSTSETUP); \
