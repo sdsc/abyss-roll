@@ -87,6 +87,9 @@ MPISETUP = \
   echo === MPIHOME ===; \
   echo $${MPIHOME}
 
+# COPYRIGHT indicates GPL only for non-commercial use--presumably the meaning
+# of the NC- in the License: field.  However, GPLv3 prohibits such restrictions,
+# and GPU-NC-3 isn't a Fedora-recognized short name.
 LICENSE: $(SRC_DIRS)
 	grep -m1 '^License:' $(SOURCE_DIR)/COPYRIGHT | grep -qE 'GPL-(NC-)?3\+'; \
 	if test $$? -eq 0; then \
