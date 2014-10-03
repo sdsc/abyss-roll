@@ -94,6 +94,8 @@ LICENSE: $(SRC_DIRS)
 	grep -m1 '^License:' $(SOURCE_DIR)/COPYRIGHT | grep -qE 'GPL-(NC-)?3\+'; \
 	if test $$? -eq 0; then \
 	  echo GPLv3+ > $@; \
+	else \
+	  exit 2; \
 	fi \
 
 $(NAME).spec: LICENSE
