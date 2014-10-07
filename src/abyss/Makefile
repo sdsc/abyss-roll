@@ -87,6 +87,18 @@ MPISETUP = \
   echo === MPIHOME ===; \
   echo $${MPIHOME}
 
+DESCRIPTION:
+	$(COMPILERSETUP); \
+	( \
+	  echo abyss rpm built using; \
+	  echo $(ROLLCOMPILER) \
+	    `$(CC) --version 2>&1 | grep -m1 -o '[0-9][0-9]*\.[0-9][^ ]*'`; \
+	  echo $(MPIMODULE) \
+	    `module display $(MPIMODULE) 2>&1 | grep -i version | grep -om1 '[0-9].*'`; \
+	  echo boost \
+	    `module display boost 2>&1 | grep -i version | grep -om1 '[0-9].*'`; \
+	) > $@ 2>&1
+
 # COPYRIGHT indicates GPL only for non-commercial use--presumably the meaning
 # of the NC- in the License: field.  However, GPLv3 prohibits such restrictions,
 # and GPU-NC-3 isn't a Fedora-recognized short name.
@@ -98,7 +110,7 @@ LICENSE: $(SRC_DIRS)
 	  exit 2; \
 	fi \
 
-$(NAME).spec: LICENSE
+$(NAME).spec: DESCRIPTION LICENSE
 
 build: $(SRC_DIRS)
 	patch $(SOURCE_DIR)/configure patch-files/configure.patch
@@ -120,4 +132,4 @@ install::
 	)
         
 clean::
-	rm -rf $(SOURCE_DIR) LICENSE
+	rm -rf $(SOURCE_DIR) DESCRIPTION LICENSE
