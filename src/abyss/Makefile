@@ -87,16 +87,17 @@ MPISETUP = \
   echo === MPIHOME ===; \
   echo $${MPIHOME}
 
+GET_MODULE_VERSION = \
+  `module display $(1) 2>&1 | grep -i version | grep -om1 '[0-9].*'`
+
 DESCRIPTION:
 	$(COMPILERSETUP); \
 	( \
 	  echo abyss rpm built using; \
 	  echo $(ROLLCOMPILER) \
 	    `$(CC) --version 2>&1 | grep -m1 -o '[0-9][0-9]*\.[0-9][^ ]*'`; \
-	  echo $(MPIMODULE) \
-	    `module display $(MPIMODULE) 2>&1 | grep -i version | grep -om1 '[0-9].*'`; \
-	  echo boost \
-	    `module display boost 2>&1 | grep -i version | grep -om1 '[0-9].*'`; \
+	  echo $(MPIMODULE) $(call GET_MODULE_VERSION, $(MPIMODULE)); \
+	  echo boost $(call GET_MODULE_VERSION, boost) \
 	) > $@ 2>&1
 
 # COPYRIGHT indicates GPL only for non-commercial use--presumably the meaning
