@@ -87,29 +87,33 @@ MPISETUP = \
   echo === MPIHOME ===; \
   echo $${MPIHOME}
 
+GET_COMPILER_VERSION = \
+  `$(1) --version 2>&1 | grep -m1 -o '[0-9][0-9]*\.[0-9][^ ]*'`
+
 GET_MODULE_VERSION = \
   `module display $(1) 2>&1 | grep -i version | grep -om1 '[0-9].*'`
+
+LICENSE_FILES = $(SOURCE_DIR)/COPYRIGHT
 
 DESCRIPTION:
 	$(COMPILERSETUP); \
 	( \
 	  echo abyss rpm built using; \
-	  echo $(ROLLCOMPILER) \
-	    `$(CC) --version 2>&1 | grep -m1 -o '[0-9][0-9]*\.[0-9][^ ]*'`; \
+	  echo $(ROLLCOMPILER) $(call GET_COMPILER_VERSION, $(CC)); \
 	  echo $(MPIMODULE) $(call GET_MODULE_VERSION, $(MPIMODULE)); \
 	  echo boost $(call GET_MODULE_VERSION, boost) \
 	) > $@ 2>&1
 
-# COPYRIGHT indicates GPL only for non-commercial use--presumably the meaning
-# of the NC- in the License: field.  However, GPLv3 prohibits such restrictions,
-# and GPU-NC-3 isn't a Fedora-recognized short name.
+# NOTE: COPYRIGHT indicates GPL only for non-commercial use--presumably the
+# meaning of the NC- in the License: line.  However, GPLv3 prohibits such
+# restrictions, and GPU-NC-3 isn't a Fedora-recognized short name.  We include
+# it in the rpm License: field anyway.
 LICENSE: $(SRC_DIRS)
-	grep -m1 '^License:' $(SOURCE_DIR)/COPYRIGHT | grep -qE 'GPL-(NC-)?3\+'; \
-	if test $$? -eq 0; then \
-	  echo GPLv3+ > $@; \
+	if grep -q '^ *License:' $(SOURCE_DIR)/COPYRIGHT; then \
+	  echo `perl -ne '$$seen{$$1}++ or print "$$1 " if /^ *License: *(.*)/' $(SOURCE_DIR)/COPYRIGHT` > $@; \
 	else \
 	  exit 2; \
-	fi \
+	fi
 
 $(NAME).spec: DESCRIPTION LICENSE
 
@@ -127,10 +131,12 @@ build: $(SRC_DIRS)
 	)
 
 install::
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)/license-info
 	( \
 	  cd $(SOURCE_DIR); \
 	  make install \
 	)
+	cp $(LICENSE_FILES) $(ROOT)/$(PKGROOT)/license-info
         
 clean::
 	rm -rf $(SOURCE_DIR) DESCRIPTION LICENSE
