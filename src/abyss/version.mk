@@ -8,9 +8,9 @@ ifndef ROLLNETWORK
   ROLLNETWORK = eth
 endif
 
-NAME           = abyss_$(ROLLMPI)_$(ROLLNETWORK)
+NAME           = sdsc-abyss_$(ROLLMPI)_$(ROLLNETWORK)
 VERSION        = 1.3.7
-RELEASE        = 1
+RELEASE        = 2
 PKGROOT        = /opt/abyss
 
 SRC_SUBDIR     = abyss

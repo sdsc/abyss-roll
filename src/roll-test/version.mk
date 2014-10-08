@@ -1,6 +1,6 @@
-NAME       = abyss-roll-test
+NAME       = sdsc-abyss-roll-test
 VERSION    = 1
-RELEASE    = 2
+RELEASE    = 3
 PKGROOT    = /root/rolltests
 
 RPM.EXTRAS = AutoReq:No
