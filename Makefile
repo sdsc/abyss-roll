@@ -53,39 +53,43 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # 
 # @Copyright@
-#
 
 # NOTE: although the package Makefile supports a ROLLCOMPILER variable, we've
 # only been able to build successfully using the gnu compilers.
-ifndef ROLLMPI
-  ROLLMPI = openmpi
+ifndef ROLLCOMPILER
+  ROLLCOMPILER = gnu
 endif
-ifndef ROLLNETWORK
-  ROLLNETWORK = eth
+
+ifndef ROLLMPI
+  ROLLMPI = rocks-openmpi
 endif
 
 -include $(ROLLSROOT)/etc/Rolls.mk
+include Rolls.mk
 
 default:
-# Copy and substitute lines of nodes/*.in that reference ROLLNETWORK and/or
-# ROLLMPI, making one copy for each ROLLNETWORK/ROLLMPI value
 	for i in `ls nodes/*.in`; do \
 	  export o=`echo $$i | sed 's/\.in//'`; \
 	  cp $$i $$o; \
-	  for n in $(ROLLNETWORK); do \
-	    perl -pi -e 'print and s/ROLLNETWORK/'$${n}'/g if m/ROLLNETWORK/' $$o; \
+	  for c in $(ROLLCOMPILER); do \
+	    COMPILERNAME=`echo $$c | awk -F/ '{print $$1}'`; \
+	    perl -pi -e "print and s/COMPILERNAME/$$COMPILERNAME/g if m/COMPILERNAME/" $$o; \
 	  done; \
 	  for m in $(ROLLMPI); do \
-	    perl -pi -e 'print and s/ROLLMPI/'$${m}'/g if m/ROLLMPI/' $$o; \
+	    MPINAME=`echo $$m | awk -F/ '{print $$1}'`; \
+	    perl -pi -e "print and s/MPINAME/$$MPINAME/g if m/MPINAME/" $$o; \
 	  done; \
-	  perl -pi -e '$$_ = "" if m/ROLL(COMPILER|NETWORK|MPI)/' $$o; \
+	  perl -pi -e '$$_ = "" if m/COMPILERNAME|MPINAME/' $$o; \
 	done
-	$(MAKE) ROLLCOMPILER=gnu ROLLNETWORK="$(ROLLNETWORK)" ROLLMPI="$(ROLLMPI)" roll
+	$(MAKE) ROLLCOMPILER="$(ROLLCOMPILER)" ROLLMPI="$(ROLLMPI)" roll
 
-distclean:: clean
+clean::
+	rm -f _arch bootstrap.py
+
+distclean: clean
 	for i in `ls nodes/*.in`; do \
 	  export o=`echo $$i | sed 's/\.in//'`; \
 	  rm -f $$o; \
 	done
-	-rm -f _arch bootstrap.py build.log
-	-rm -rf RPMS SRPMS
+	rm -fr RPMS SRPMS
+	-rm -f build.log

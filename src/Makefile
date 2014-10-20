@@ -67,13 +67,11 @@ copyright rpm pkg clean::
 	  grep -q ROLLMPI $$i/version.mk; \
 	  if test $$? -eq 0; then \
 	    for m in $(ROLLMPI); do \
-	      for n in $(ROLLNETWORK); do \
-	        echo make $@ in $$i with ROLLMPI=$$m ROLLNETWORK=$$n; \
-	        (cd $$i && $(MAKE) ROLLMPI=$$m ROLLNETWORK=$$n $@) || exit 2; \
-	      done; \
+	      echo make $@ in $$i with ROLLMPI=$$m; \
+	      (cd $$i && $(MAKE) ROLLMPI=$$m $@) || exit 2; \
 	    done; \
 	  else \
-	    echo make $@ in $$i with ROLLMPI=$(ROLLMPI) ROLLNETWORK=$(ROLLNETWORK); \
-	    (cd $$i && $(MAKE) ROLLMPI="$(ROLLMPI)" ROLLNETWORK="$(ROLLNETWORK)" $@) || exit 2; \
+	    echo make $@ in $$i with ROLLMPI=$(ROLLMPI); \
+	    (cd $$i && $(MAKE) ROLLMPI="$(ROLLMPI)" $@) || exit 2; \
 	  fi; \
 	done

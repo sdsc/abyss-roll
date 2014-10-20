@@ -76,14 +76,8 @@ COMPILERSETUP = \
   echo === Compiler and version ===; \
   $(CC) --version
 
-ifeq ("$(ROLLNETWORK)", "eth")
-  MPIMODULE = $(ROLLMPI)
-else
-  MPIMODULE = $(ROLLMPI)_$(ROLLNETWORK)
-endif
-
 MPISETUP = \
-  module load $(MPIMODULE) || true; \
+  module load $(ROLLMPI) || true; \
   echo === MPIHOME ===; \
   echo $${MPIHOME}
 
@@ -100,7 +94,7 @@ DESCRIPTION:
 	( \
 	  echo abyss rpm built using; \
 	  echo $(ROLLCOMPILER) $(call GET_COMPILER_VERSION, $(CC)); \
-	  echo $(MPIMODULE) $(call GET_MODULE_VERSION, $(MPIMODULE)); \
+	  echo $(ROLLMPI) $(call GET_MODULE_VERSION, $(ROLLMPI)); \
 	  echo boost $(call GET_MODULE_VERSION, boost) \
 	) > $@ 2>&1
 

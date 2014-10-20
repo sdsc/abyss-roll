@@ -1,16 +1,16 @@
-ROLLCOMPILER = gnu
+ifndef ROLLCOMPILER
+  ROLLCOMPILER = gnu
+endif
+COMPILERNAME := $(firstword $(subst /, ,$(ROLLCOMPILER)))
 
 ifndef ROLLMPI
-  ROLLMPI = openmpi
+  ROLLMPI = rocks-openmpi
 endif
+MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
-ifndef ROLLNETWORK
-  ROLLNETWORK = eth
-endif
-
-NAME           = sdsc-abyss_$(ROLLMPI)_$(ROLLNETWORK)
+NAME           = sdsc-abyss_$(COMPILERNAME)_$(MPINAME)
 VERSION        = 1.3.7
-RELEASE        = 2
+RELEASE        = 3
 PKGROOT        = /opt/abyss
 
 SRC_SUBDIR     = abyss
