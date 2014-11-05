@@ -1,4 +1,9 @@
 #%Module1.0
+module-whatis "abyss"
+module-whatis "Version: VERSION"
+module-whatis "Description: abyss"
+module-whatis "Compiler: ROLLCOMPILER"
+module-whatis "MPI Flavors: ROLLMPI"
 setenv ABYSSHOME /opt/abyss
 prepend-path PATH /opt/abyss/bin
 prepend-path LD_LIBRARY_PATH /opt/abyss/lib
