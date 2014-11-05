@@ -58,45 +58,20 @@ REDHAT.ROOT = $(PWD)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
 include pull.mk
-
-CC = gcc
-ifeq ("$(COMPILERNAME)", "intel")
-  CC = icc
-else ifeq ("$(COMPILERNAME)", "pgi")
-  CC = pgcc
-endif
-
-BOOSTSETUP = \
-  module load boost || true; \
-  echo === BOOSTHOME ===; \
-  echo $${BOOSTHOME}
-
-COMPILERSETUP = \
-  module load $(ROLLCOMPILER) || true; \
-  echo === Compiler and version ===; \
-  $(CC) --version
-
-MPISETUP = \
-  module load $(ROLLMPI) || true; \
-  echo === MPIHOME ===; \
-  echo $${MPIHOME}
-
-GET_COMPILER_VERSION = \
-  `$(1) --version 2>&1 | grep -m1 -o '[0-9][0-9]*\.[0-9][^ ]*'`
-
-GET_MODULE_VERSION = \
-  `module display $(1) 2>&1 | grep -i version | grep -om1 '[0-9].*'`
+include $(SDSCDEVEL)/Rules.mk
 
 LICENSE_FILES = $(SOURCE_DIR)/COPYRIGHT
 
+$(NAME).spec: DESCRIPTION LICENSE
+
 DESCRIPTION:
-	$(COMPILERSETUP); \
+	$(MODULE_LOAD_CC); \
 	( \
-	  echo abyss rpm built using; \
-	  echo $(ROLLCOMPILER) $(call GET_COMPILER_VERSION, $(CC)); \
-	  echo $(ROLLMPI) $(call GET_MODULE_VERSION, $(ROLLMPI)); \
-	  echo boost $(call GET_MODULE_VERSION, boost) \
-	) > $@ 2>&1
+	  $(DESCRIBE_PKG); \
+	  $(DESCRIBE_CC); \
+	  $(DESCRIBE_MPI); \
+	  $(DESCRIBE_BOOST) \
+	) > $@
 
 # NOTE: COPYRIGHT indicates GPL only for non-commercial use--presumably the
 # meaning of the NC- in the License: line.  However, GPLv3 prohibits such
@@ -109,14 +84,12 @@ LICENSE: $(SRC_DIRS)
 	  exit 2; \
 	fi
 
-$(NAME).spec: DESCRIPTION LICENSE
-
 build: $(SRC_DIRS)
 	patch $(SOURCE_DIR)/configure patch-files/configure.patch
 	( \
-	  $(COMPILERSETUP); \
-	  $(BOOSTSETUP); \
-	  $(MPISETUP); \
+	  $(MODULE_LOAD_CC); \
+	  $(MODULE_LOAD_MPI); \
+	  $(MODULE_LOAD_BOOST); \
 	  cd $(SOURCE_DIR); \
 	  ./configure CC=mpicc CXX=mpicxx \
 	    --prefix=$(ROOT)/$(PKGROOT) \
@@ -125,12 +98,12 @@ build: $(SRC_DIRS)
 	)
 
 install::
-	mkdir -p -m 755 $(ROOT)/$(PKGROOT)/license-info
+	mkdir -p -m 755 $(ROOT)/$(PKGROOT)
 	( \
 	  cd $(SOURCE_DIR); \
 	  make install \
 	)
-	cp $(LICENSE_FILES) $(ROOT)/$(PKGROOT)/license-info
+	$(INSTALL_LICENSE_FILES)
         
 clean::
 	rm -rf $(SOURCE_DIR) DESCRIPTION LICENSE
