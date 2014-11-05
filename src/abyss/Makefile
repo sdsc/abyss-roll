@@ -57,7 +57,7 @@
 REDHAT.ROOT = $(PWD)/../../
 
 -include $(ROCKSROOT)/etc/Rules.mk
-include pull.mk
+include $(SDSCDEVEL)/Pull.mk
 include $(SDSCDEVEL)/Rules.mk
 
 LICENSE_FILES = $(SOURCE_DIR)/COPYRIGHT
