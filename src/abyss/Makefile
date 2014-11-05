@@ -78,11 +78,11 @@ DESCRIPTION:
 # restrictions, and GPU-NC-3 isn't a Fedora-recognized short name.  We include
 # it in the rpm License: field anyway.
 LICENSE: $(SRC_DIRS)
-	if grep -q '^ *License:' $(SOURCE_DIR)/COPYRIGHT; then \
-	  echo `perl -ne '$$seen{$$1}++ or print "$$1 " if /^ *License: *(.*)/' $(SOURCE_DIR)/COPYRIGHT` > $@; \
-	else \
+	if ! grep -q '^ *License:' $(LICENSE_FILES); then \
 	  exit 2; \
 	fi
+	echo `perl -ne '$$seen{$$1}++ or print "$$1 and " if /^ *License: *(.*)/' $(LICENSE_FILES)` > $@
+	perl -pi -e 's/\s*and\s*$$//' $@
 
 build: $(SRC_DIRS)
 	patch $(SOURCE_DIR)/configure patch-files/configure.patch
