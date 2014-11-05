@@ -57,16 +57,6 @@ the `ROLLMPI` variable.  The default values are "gnu" and "rocks-openmpi".
 
 NOTE: this roll presently builds successfully only using the gnu compiler.
 
-The values of the `ROLLCOMPILER` and `ROLLMPI` variables are incorporated into
-the names of the produced rpms.  For example,
-
-```shell
-make ROLLCOMPILER=intel ROLLMPI=mvapich2_ib 2>&1 | tee build.log
-```
-
-produces a roll containing an rpm with a name that begins
-`abyss_intel_mvapich2_ib`.
-
 
 ## Installation
 

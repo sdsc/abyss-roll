@@ -8,7 +8,7 @@ ifndef ROLLMPI
 endif
 MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
-NAME           = sdsc-abyss_$(COMPILERNAME)_$(MPINAME)
+NAME           = sdsc-abyss
 VERSION        = 1.3.7
 RELEASE        = 3
 PKGROOT        = /opt/abyss

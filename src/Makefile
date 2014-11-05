@@ -63,15 +63,6 @@ default:
 	@echo "copyright|rpm|pkg|clean"
 
 copyright rpm pkg clean::
-	for i in $(SRCDIRS) ; do \
-	  grep -q ROLLMPI $$i/version.mk; \
-	  if test $$? -eq 0; then \
-	    for m in $(ROLLMPI); do \
-	      echo make $@ in $$i with ROLLMPI=$$m; \
-	      (cd $$i && $(MAKE) ROLLMPI=$$m $@) || exit 2; \
-	    done; \
-	  else \
-	    echo make $@ in $$i with ROLLMPI=$(ROLLMPI); \
-	    (cd $$i && $(MAKE) ROLLMPI="$(ROLLMPI)" $@) || exit 2; \
-	  fi; \
+	for i in $(SRCDIRS); do \
+	  (cd $$i && $(MAKE) ROLLCOMPILER="$(ROLLCOMPILER)" ROLLMPI="$(ROLLMPI)" $@) || exit 2; \
 	done
