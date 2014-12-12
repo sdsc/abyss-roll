@@ -60,8 +60,6 @@ REDHAT.ROOT = $(PWD)/../../
 include $(SDSCDEVEL)/Pull.mk
 include $(SDSCDEVEL)/Rules.mk
 
-LICENSE_FILES = $(SOURCE_DIR)/COPYRIGHT
-
 $(NAME).spec: DESCRIPTION LICENSE
 
 DESCRIPTION:
@@ -79,7 +77,7 @@ DESCRIPTION:
 # it in the rpm License: field anyway.
 LICENSE: $(SRC_DIRS)
 	$(CHECK_LICENSE_FILES)
-	echo `perl -ne '$$seen{$$1}++ or print "$$1 and " if /^ *License: *(.*)/' $(LICENSE_FILES)` > $@
+	echo `perl -ne '$$seen{$$1}++ or print "$$1 and " if /^ *License: *(.*)/' license-files/COPYRIGHT` > $@
 	perl -pi -e 's/\s*and\s*$$//' $@
 
 build: $(SRC_DIRS)
