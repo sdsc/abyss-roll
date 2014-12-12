@@ -24,9 +24,18 @@ development machine.
 
 ## Dependencies
 
-The build process requies the boost libraries; specifically, it expects the
-BOOSTHOME environment variable to be set.  If possible, the build loads the
-boost environment module to fullfill this requirement.
+The sdsc-roll must be installed on the build machine, since the build process
+depends on make include files provided by that roll.
+
+The roll sources assume that modulefiles provided by SDSC compiler and mpi
+rolls are available, but it will build without them as long as the environment
+variables they provide are otherwise defined.
+
+The build process requires the boost libraries and assumes that the boost
+modulefile provided by the SDSC boost-roll is available.  It will build without
+the modulefile as long as the environment variables it provides are otherwise
+defined.
+
 
 ## Building
 
