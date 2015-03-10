@@ -22,7 +22,6 @@ mkdir $TESTFILE.dir
 cd $TESTFILE.dir
 wget --no-check-certificate https://raw.github.com/dzerbino/velvet/master/data/test_reads.fa
 abyss-pe k=25 name=test se=test_reads.fa
-abyss-fac test-se-contigs.fa
 END
 close(OUT);
 
