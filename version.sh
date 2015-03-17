@@ -1,5 +1,3 @@
-#!/bin/sh
-
 ROCKS_VERSION=`cat /etc/rocks-release 2>/dev/null | awk '{print $3}'`
 DESC_CMD="git describe --match 'v${ROCKS_VERSION}' 2>/dev/null | sed \"s/v\([0-9\.]*\)-*\([0-9]*\)-*\([0-9a-z]*\)/\1 \2 \3/\""
 DESC=`eval ${DESC_CMD}`
@@ -8,7 +6,7 @@ DESC=`eval ${DESC_CMD}`
 if [ ! -d "./.git" ] && [ -z "${DESC}" ]
 then
     # Try to support using the tagged downloads
-    DESC=`pwd | grep -oe 'hdf-roll-.\+' | sed 's/hdf-roll-//g'`
+    DESC=`pwd | grep -oe 'abyss-roll-.\+' | sed 's/abyss-roll-//g'`
     LOCAL_REV="-github_archive"
 fi
 
