@@ -6,5 +6,4 @@ module-whatis "Compiler: ROLLCOMPILER"
 module-whatis "MPI Flavors: ROLLMPI"
 setenv ABYSSHOME /opt/abyss
 prepend-path PATH /opt/abyss/bin
-prepend-path LD_LIBRARY_PATH /opt/abyss/lib
 module load ROLLCOMPILER ROLLMPI
