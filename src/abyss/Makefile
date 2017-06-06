@@ -81,7 +81,6 @@ LICENSE: $(SRC_DIRS)
 	perl -pi -e 's/\s*and\s*$$//' $@
 
 build: $(SRC_DIRS)
-	patch $(SOURCE_DIR)/configure patch-files/configure.patch
 	( \
 	  $(MODULE_LOAD_CC); \
 	  $(MODULE_LOAD_MPI); \
