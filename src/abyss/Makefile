@@ -88,7 +88,7 @@ build: $(SRC_DIRS)
 	  $(MODULE_LOAD_BOOST); \
 	  cd $(SOURCE_DIR); \
 	  ./configure CC=mpicc CXX=mpicxx \
-	    --prefix=$(ROOT)/$(PKGROOT) \
+	    --prefix=$(ROOT)/$(PKGROOT) --disable-werror \
 	    --with-boost=$${BOOSTHOME}/include --with-mpi=$${MPIHOME}; \
 	  make \
 	)
