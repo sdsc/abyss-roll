@@ -85,9 +85,15 @@ build: $(SRC_DIRS)
 	  $(MODULE_LOAD_CC); \
 	  $(MODULE_LOAD_MPI); \
 	  $(MODULE_LOAD_BOOST); \
-	  cd $(SOURCE_DIR); \
-	  ./configure CC=mpicc CXX=mpicxx \
-	    --prefix=$(ROOT)/$(PKGROOT) --disable-werror \
+          export CC=mpicc; \
+          export CXX=mpicxx; \
+          cd $(SPARSEHASH_DIR); \
+          ./configure --prefix=$(PWD)/sparsehash; \
+          make; \
+          make install; \
+	  cd ../$(SOURCE_DIR); \
+	  ./configure --prefix=$(ROOT)/$(PKGROOT) --disable-werror \
+          --with-sparsehash=$(PWD)/sparsehash; \
 	    --with-boost=$${BOOSTHOME}/include --with-mpi=$${MPIHOME}; \
 	  make \
 	)
@@ -101,4 +107,4 @@ install::
 	$(INSTALL_LICENSE_FILES)
         
 clean::
-	rm -rf $(SOURCE_DIR) DESCRIPTION LICENSE
+	rm -rf $(SOURCE_DIR) $(SPARSEHASH_DIR) sparsehash DESCRIPTION LICENSE
