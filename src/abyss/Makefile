@@ -93,7 +93,7 @@ build: $(SRC_DIRS)
           make install; \
 	  cd ../$(SOURCE_DIR); \
 	  ./configure --prefix=$(ROOT)/$(PKGROOT) --disable-werror \
-          --with-sparsehash=$(PWD)/sparsehash; \
+          --with-sparsehash=$(PWD)/sparsehash \
 	    --with-boost=$${BOOSTHOME}/include --with-mpi=$${MPIHOME}; \
 	  make \
 	)
