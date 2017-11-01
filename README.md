@@ -64,8 +64,6 @@ The build process recognizes "gnu", "intel" or "pgi" as the value for the
 `ROLLCOMPILER` variable; any MPI modulefile name may be used as the value of
 the `ROLLMPI` variable.  The default values are "gnu" and "rocks-openmpi".
 
-NOTE: this roll presently builds successfully only using the gnu compiler.
-
 
 ## Installation
 
