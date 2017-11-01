@@ -31,3 +31,4 @@ TAR_GZ_PKGS    = $(SOURCE_PKG)
 ZIP_PKGS       = $(SPARSEHASH_PKG)
 
 RPM.EXTRAS     = AutoReq:No
+RPM.PREFIX     = $(PKGROOT)
