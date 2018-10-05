@@ -9,8 +9,8 @@ endif
 MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
 NAME           = sdsc-abyss
-VERSION        = 2.0.2
-RELEASE        = 1
+VERSION        = 2.1.1
+RELEASE        = 0
 PKGROOT        = /opt/abyss
 
 SRC_SUBDIR     = abyss
