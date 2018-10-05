@@ -95,7 +95,7 @@ build: $(SRC_DIRS)
 	  ./configure --prefix=$(ROOT)/$(PKGROOT) --disable-werror \
           --with-sparsehash=$(PWD)/sparsehash \
 	    --with-boost=$${BOOSTHOME}/include --with-mpi=$${MPIHOME}; \
-	  make \
+	  make -j 16 \
 	)
 
 install::
