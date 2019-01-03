@@ -9,7 +9,7 @@ endif
 MPINAME := $(firstword $(subst /, ,$(ROLLMPI)))
 
 NAME           = sdsc-abyss
-VERSION        = 2.1.1
+VERSION        = 2.1.5
 RELEASE        = 0
 PKGROOT        = /opt/abyss
 
