@@ -89,13 +89,13 @@ build: $(SRC_DIRS)
           export CXX=mpicxx; \
           cd $(SPARSEHASH_DIR); \
           ./configure --prefix=$(PWD)/sparsehash; \
-          make; \
+          make -j 16; \
           make install; \
 	  cd ../$(SOURCE_DIR); \
 	  ./configure --prefix=$(ROOT)/$(PKGROOT) --disable-werror \
           --with-sparsehash=$(PWD)/sparsehash \
 	    --with-boost=$${BOOSTHOME}/include --with-mpi=$${MPIHOME}; \
-	  make \
+	  make -j 16 \
 	)
 
 install::
